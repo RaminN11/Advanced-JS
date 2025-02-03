@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Задание 1 (тайминг 20 минут)
+Создать механизм для безопасного добавления метаданных к
+объектам книг с использованием Symbol.
+1. Создать уникальные символы для метаданных: отзывы,
+рейтинг, теги.
+2. Реализовать функции addMetadata (добавление метаданных)
+и getMetadata (получение метаданных).
+3. Создать объект книги, добавить метаданные и вывести их на
+консоль. -->
+
+
+    <script>
+        function addMetaData(book, metaDataType, data) {
+            if (book[metaDataType]) {
+                book[metaDataType].push[data];
+            } else {
+                book[metaDataType] = [data]
+            }
+        }
+
+        function getMetaData(book, metaDataType) {
+            return book[metaDataType];
+        }
+
+        const book = {
+            title: '1982',
+            author: 'Alex Popov',
+        };
+
+        const reviewSymbol = Symbol('review');
+        const rateSymbol = Symbol('rate');
+        const tagSymbol = Symbol('tag');
+
+        console.log(book, reviewSymbol, 'Отличная книга!');
+        console.log(book, rateSymbol, '5');
+        console.log(book, tagSymbol, "alex's biography");
+
+    </script>
+</body>
+</html>

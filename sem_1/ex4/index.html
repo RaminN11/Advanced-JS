@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const lessons = new Map();
+        lessons.set("Математика", "Смирнов");
+        lessons.set("История", "Иванов");
+
+        const ivanLessons = new Set();
+        ivanLessons.add('Математика').add('История');
+
+        const students = new Map();
+        students.set("Иван", ivanLessons);
+
+        console.log(`преподаватель по математике: ${lessons.get('Математика')}`) // Смирнов;
+        console.log(`Уроки Ивана: ${[...students.get("Иван")]}`);
+    </script>
+</body>
+</html>

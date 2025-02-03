@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const specialization = new Map([
+        ["Виктор", "Пицца"],
+        ["Ольга", "Суши"],
+        ["Дмитрий", "Десерты"],
+      ]);
+
+      const dishes = new Map([
+        ["Пепперони", "Виктор"],
+        ["Маргарита", "Виктор"],
+        ["Филадельфия", "Ольга"],
+        ["Калифорния", "Ольга"],
+        ["Тирамису", "Дмитрий"],
+        ["Чизкейк", "Дмитрий"],
+      ]);
+
+      const clientAlexey = new Set(["Пепперони", "Тирамису"]);
+      const clientIrina = new Set(["Чизкейк"]);
+      const clientMary = new Set(["Калифорния", "Маргарита"]);
+
+      const clients = new Map([
+        ["Алексей", clientAlexey],
+        ["Мария", clientMary],
+        ["Ирина", clientIrina],
+      ]);
+
+  
+      function printOrders() {
+        for (const [client, orders] of clients) {
+          console.log(`Клиент ${client} заказал:`);
+          for (const dish of orders) {
+            const chef = dishes.get(dish);
+            console.log(`- ${dish} (Готовит: ${chef})`);
+          }
+
+        }
+      }
+
+      printOrders();
+    </script>
+  </body>
+</html>
