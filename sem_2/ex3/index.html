@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Проверка числа</title>
+  </head>
+  <body>
+    <h1>Проверка на число</h1>
+
+    <input type="text" id="inputUser" placeholder="Введите число" />
+    <button onclick="checkNumber()">Проверить</button>
+    <p id="result"></p>
+
+    <script>
+
+      function checkNumber() {
+        const inputElement = document.getElementById('inputUser').value.trim();
+        const resultElement = document.getElementById('result');
+          if (inputElement.trim() === "") {
+              resultElement.textContent = "поле не должно быть пустым!";
+              resultElement.style.color = 'red';
+              return
+          } else if (!isNaN(inputElement) && !isNaN(parseFloat(inputElement))) {
+              resultElement.textContent = `Вы ввели число: ${inputElement}`;
+              resultElement.style.color = 'green';
+          } else {
+              resultElement.textContent = "Это не число!";
+              resultElement.style.color = "red";
+          }
+      }
+    </script>
+  </body>
+</html>

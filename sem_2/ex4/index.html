@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Список</h1>
+
+    <input type="text" id="inputText" placeholder="Введите текст">
+    <button onclick="addList()" id="btn">Добавить в список</button>
+    <div id="result"></div>
+    <ul id="ulEl">
+    </ul>
+
+    <script>
+        function addList() {
+            const inputEl = document.getElementById('inputText').value.trim();
+            const ulElement = document.getElementById('ulEl');
+            const resultEl = document.getElementById('result');
+
+            try {
+                if (inputEl.length < 4) {
+                    throw new Error("Слишком короткое слово");
+                }
+                if (inputEl.length > 10) {
+                    throw new Error('Слишком длинное слово');
+                }
+
+                const liElement = document.createElement('li');
+                liElement.textContent = inputEl;
+                ulElement.appendChild(liElement);
+
+                resultEl.textContent = 'Текст успешно добавлен в список';
+                resultEl.style.color = 'green';
+                
+            } catch (error) {
+                resultEl.textContent = `Ошибка: ${error}`;
+                resultEl.style.color = 'red';
+                
+            }
+        document.getElementById('inputText').value = '';
+
+        }
+    </script>
+</body>
+</html>

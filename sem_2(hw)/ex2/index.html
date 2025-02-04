@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            max-width: 660px;
+            margin: auto;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 5px;
+        }
+        button {
+            display: block;
+            border: 1px solid rgb(19, 19, 19);
+            background-color: rgb(240, 240, 240);
+            padding: 5px;
+        }
+        
+        .error {
+            color: red;
+        }
+
+        .reviewContent {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            border-top: 2px solid #ccc;
+            margin-top: 20px;
+            padding-top: 10px;
+        }
+        .product {
+            margin-bottom: 20px;
+        }
+
+        .product h3 {
+            margin-bottom: 5px;
+        }
+        .review {
+            background: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #0fb300;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Добавить отзыв</h2>
+        <label for="productSelect">Выберите продукт:</label>
+        <select id="productSelect"></select>
+
+        <textarea id="reviewInput" placeholder="Введите ваш отзыв..."></textarea>
+        <button onclick="addReview()">Добавить отзыв</button>
+        <p id="errorMessage" class="error"></p>
+
+        <h2>Отзывы</h2>
+        <div id="reviewsContainer" class="reviewContent"></div>
+    </div>
+
+    <script>
+        const initialData = [
+        {
+            product: "Apple iPhone 13",
+            reviews: [
+                { id: "1",text: "Отличный телефон! Батарея держится долго." },
+                { id: "2", text: "Камера супер, фото выглядят просто потрясающе." }
+            ],
+        },
+        {
+            product: "Samsung Galaxy Z Fold 3",
+            reviews: [
+                { id: "3", text: "Интересный дизайн, но дорогой." }
+            ],
+        },
+        {
+            product: "Sony PlayStation 5",
+            reviews: [
+                { id: "4", text: "Люблю играть на PS5, графика на высоте." }
+            ],
+        },
+    ];
+
+    const productSelect = document.getElementById('productSelect');
+    const errorMessage = document.getElementById('errorMessage');
+    const reviewsContainer = document.getElementById('reviewsContainer');
+    const reviewInput = document.getElementById('reviewInput');
+
+    //  Инициализация списка продуктов
+
+    function initProducts(){
+        initialData.forEach((product) => {
+            const option = document.createElement('option');
+            option.value = product.product;
+            option.textContent = product.product;
+            productSelect.appendChild(option);
+        });
+        renderReviews(); 
+    };
+
+    function addReview() {
+        const selectedProduct = productSelect.value;
+        const reviewText = reviewInput.value.trim();
+
+        try {
+            if (reviewText.length < 50 || reviewText.length > 500) {
+                throw new Error('Отзыв должен содержать от 50 до 500 символов.');
+            } 
+                const product = initialData.find((p) => p.product === selectedProduct);
+                const newReview = { id: Date.now().toString(), text: reviewText};
+
+                product.reviews.push(newReview);
+
+                reviewInput.value = "";
+                errorMessage.textContent = "";
+                renderReviews();
+            
+        } catch (error) {
+            errorMessage.textContent = error.message;
+        }
+    }
+
+    function renderReviews() {
+        reviewsContainer.innerHTML = "";
+        initialData.forEach((product) => {
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('product');
+
+            const productTitle = document.createElement('h3');
+            productTitle.textContent = product.product;
+            productDiv.appendChild(productTitle);
+
+            product.reviews.forEach((review) => {
+                const reviewDiv = document.createElement('div');
+                reviewDiv.classList.add('review');
+                reviewDiv.textContent = review.text;
+                productDiv.appendChild(reviewDiv);
+            });
+            reviewsContainer.appendChild(productDiv);
+        });
+    }
+    initProducts();
+    </script>
+</body>
+</html>

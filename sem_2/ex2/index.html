@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class User {
+        constructor(firstname, lastname) {
+          this.firstname = firstname;
+          this.lastname = lastname;
+        }
+      }
+
+      class PremiumUser extends User {
+        constructor(firstname, lastname, premiumAccount) {
+          super(firstname, lastname);
+          this.premiumAccount = new Date().setFullYear(new Date().getFullYear() + 1); // Пример: установите срок действия на год вперед
+        }
+      }
+
+      // создать RegularUser
+      class RegularUser extends User {
+        constructor(firstname, lastname) {
+          super(firstname, lastname);
+        }
+      }
+      function getAccountinfo(user) {
+        // Премиум аккаунт действителен до такой-то даты или инофрмация отсутсвует
+        // пользователь без премиума аккаунта
+        // Тип пользователя не определен
+        if (user instanceof PremiumUser) {
+            return `Премиум аккаунт действителен до: ${new Date(user?.premiumAccount).getFullYear() ?? "неизвестно"}  `;
+        } else if (user instanceof RegularUser) {
+            return `У пользователя нет доступа к премиум аккаунту.`
+        } else {
+            return "Тип пользователя не определен."
+        }
+      }
+
+      //Проверка
+      const premiumUser = new PremiumUser('Иван', "Иванов");
+      const regularUser = new RegularUser('Ваня', "Попов");
+      const unknownUser = {};
+
+      console.log(getAccountinfo(premiumUser));
+      console.log(getAccountinfo(regularUser));
+      console.log(getAccountinfo(unknownUser));
+    </script>
+  </body>
+</html>
