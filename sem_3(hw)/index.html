@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отзывы о продуктах</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+        }
+        body { 
+            font-family: Arial, sans-serif;
+            text-align: center; 
+        }
+        .container {
+            max-width: 400px; 
+            margin: auto; 
+            padding: 20px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+        }
+        button { 
+            width: 100%; 
+            margin: 5px 0; 
+            padding: 10px; 
+        }
+        input, textarea { 
+            width: 100%; 
+            margin: 5px 0; 
+            padding: 5px;
+        }
+        .product { 
+            cursor: pointer; 
+            color: blue; 
+            text-decoration: underline; 
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script>
+        function showReviewForm() {
+            document.getElementById('app').innerHTML = `
+                <div class="container">
+                    <h2>Добавить отзыв</h2>
+                    <input type="text" id="product" placeholder="Название продукта">
+                    <textarea id="review" placeholder="Ваш отзыв"></textarea>
+                    <button onclick="addReview()">Добавить отзыв</button>
+                    <button onclick="showReviews()">Посмотреть отзывы</button>
+                </div>`;
+        }
+
+        function showReviews() {
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || {};
+            let reviewList = '<div class="container"><h2>Отзывы</h2>';
+            for (const product in reviews) {
+                reviewList += `<p class="product" onclick="showProductReviews('${product}')">${product}</p>`;
+            }
+            reviewList += '<button onclick="showReviewForm()">Добавить отзыв</button></div>';
+            document.getElementById('app').innerHTML = reviewList;
+        }
+
+
+        function showProductReviews(product) {
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || {};
+            let reviewList = `<div class="container"><h2>Отзывы о ${product}</h2>`;
+            reviews[product].forEach((review, index) => {
+                reviewList += `<p>${review} <button onclick="deleteReview('${product}', ${index})">Удалить</button></p>`;
+            });
+            reviewList += '<button onclick="showReviews()">Назад</button></div>';
+            document.getElementById('app').innerHTML = reviewList;
+        }
+
+        function addReview() {
+            const product = document.getElementById('product').value.trim();
+            const review = document.getElementById('review').value.trim();
+            if (product && review) {
+                const reviews = JSON.parse(localStorage.getItem('reviews')) || {};
+                if (!reviews[product]) reviews[product] = [];
+                reviews[product].push(review);
+                localStorage.setItem('reviews', JSON.stringify(reviews));
+                showReviews();
+            }
+        }
+
+        function deleteReview(product, index) {
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || {};
+            reviews[product].splice(index, 1);
+            if (reviews[product].length === 0) delete reviews[product];
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+            showReviews();
+        }
+
+        (function init() {
+            showReviewForm();
+        })();
+    </script>
+</body>
+</html>

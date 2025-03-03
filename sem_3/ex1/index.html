@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button class="load-news">Загрузить новости</button>
+    <div class="content-news"></div>
+
+    <script>
+        const newsData = [
+            { title: "Полеты на Марс стали реальностью!", content: "SpaceX успешно отправила первую миссию с туристами." },
+            { title: "Искусственный интеллект меняет мир", content: "Нейросети помогают в медицине, финансах и даже искусстве." },
+        ];
+
+        function fetchNews() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (Math.random() < 0.1) {
+                        reject(new Error('Ошибка данных. Повторите попытку!'))
+                    } else {
+                        resolve(newsData);
+                    }
+                }, 2000);
+            });
+        }
+
+        const buttonEl = document.querySelector('.load-news');
+        const contentEl = document.querySelector('.content-news');
+
+        buttonEl.addEventListener('click', () => {
+            fetchNews()
+                .then((data) => {
+                data.forEach(news => {
+                    const newsTitle = document.createElement('h2');
+                    newsTitle.classList.add('title');
+                    newsTitle.textContent = news.title;
+
+                    const newsText = document.createElement('p');
+                    newsText.classList.add('text-news');
+                    newsText.textContent = news.content;
+
+                    contentEl.appendChild(newsTitle);
+                    contentEl.appendChild(newsText);
+                });
+                
+            }).catch((error) => {
+                contentEl.textContent = `Ошибка: ${error}`;
+            });
+        })
+    </script>
+</body>
+</html>

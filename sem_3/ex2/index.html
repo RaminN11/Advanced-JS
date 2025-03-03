@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" class="inputEl" placeholder="Введите текст">
+
+    <button class="saveBtn">Сохранить</button>
+    <button class="downloadBtn">Загрузить</button>
+    <button class="cleanBtn">Очистить</button>
+
+    <div class="inputList"></div>
+
+    <script>
+        const inputText = document.querySelector('.inputEl');
+        const saveButton = document.querySelector('.saveBtn');
+        const downloadButton = document.querySelector('.downloadBtn');
+        const cleanButton = document.querySelector('.cleanBtn');
+        const listItem = document.querySelector('.inputList');
+
+        saveButton.addEventListener('click', () => {
+            const text = inputText.value;
+            if (text.trim() !== ""){
+                localStorage.setItem('savedText', text);
+                listItem.textContent = "Текст сохранен";
+                listItem.style.color = 'green';
+            } else {
+                listItem.textContent = "Не удалось сохранить текст. Повторите попытку!";
+                listItem.style.color = "red";
+            }
+        });
+
+        downloadButton.addEventListener('click', () => {
+            const savedText = localStorage.getItem('savedText');
+            if (savedText) {
+                listItem.textContent = 'Полученный текст: ' + savedText;
+                
+            } else {
+                listItem.textContent = "Нет сохраненного текста";
+                listItem.style.color = "grey";
+            }
+        })
+
+        cleanButton.addEventListener('click', () => {
+            localStorage.removeItem("savedText");
+            listItem.textContent = "Сохраненный текст удален!";
+            listItem.style.color = "orange";
+        })
+
+
+    </script>
+</body>
+</html>

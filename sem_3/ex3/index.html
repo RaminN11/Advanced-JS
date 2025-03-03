@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Конфигуратор мебели</h1>
+    <div class="container">
+        <label for="furniture">Выберите тип мебели:</label>
+        <select id="furniture">
+            <option value="Стол">Стол</option>
+            <option value="Стул">Стул</option>
+            <option value="Диван">Диван</option>
+        </select>
+
+        <label for="color">Выберите цвет:</label>
+        <select id="color">
+            <option value="Белый">Белый</option>
+            <option value="Черный">Черный</option>
+            <option value="Коричневый">Коричневый</option>
+        </select>
+
+        <label for="material">Выберите материал:</label>
+        <select id="material">
+            <option value="Дерево">Дерево</option>
+            <option value="Металл">Металл</option>
+            <option value="Стекло">Стекло</option>
+        </select>
+
+        <label for="style">Выберите стиль:</label>
+        <select id="style">
+            <option value="Классический">Классический</option>
+            <option value="Современный">Современный</option>
+            <option value="Лофт">Лофт</option>
+        </select>
+        <button id="save">Сохранить комплект</button>
+        <button id="clear">Очистить настройки</button>
+       
+    <div id="result"></div>
+</div>
+
+<script>
+        const furnitureSelect = document.getElementById("furniture");
+        const colorSelect = document.getElementById("color");
+        const materialSelect = document.getElementById("material");
+        const styleSelect = document.getElementById("style");
+        const output = document.getElementById("output");
+
+        function saveSelection() {
+            const selection = {
+                furniture: furnitureSelect.value,
+                color: colorSelect.value,
+                material: materialSelect.value,
+                style: styleSelect.value
+            };
+
+            localStorage.setItem("furnitureConfig", JSON.stringify(selection));
+            displaySelection(selection);
+        }
+
+    function loadSelection() {
+        const savedCollection = localStorage.getItem('furnitureConfig');
+
+        if (savedCollection) {
+            const selectItem = JSON.parse(savedCollection);
+            furnitureSelect.value = selectItem.furniture;
+            colorSelect.value = selectItem.color;
+            materialSelect.value = selectItem.material;
+            styleSelect.value = selectItem.value;
+            displaySelection(selection);
+        }
+    };
+
+    function clearSelection() {
+        localStorage.removeItem('furnitureConfig');
+        result.textContent = "Выбор не сделан";
+        result.className = "message";
+    };
+
+    function displaySelection(selection) {
+        result.textContent = `Выбранный комплект: ${selection.furniture}, ${selection.color}, ${selection.material}, ${selection.style}`;
+    }
+
+    document.getElementById("save").addEventListener("click", saveSelection);
+    document.getElementById("clear").addEventListener("click", clearSelection);
+</script>
+</body>
+</html>
